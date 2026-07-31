@@ -1,0 +1,3 @@
+side,price_ticks,price,order_id,original_quantity,remaining_quantity
+SELL,50200,502.00,202,40,10
+SELL,50300,503.00,203,30,30
