@@ -1,0 +1,44 @@
+#include <cassert>
+#include <iostream>
+#include "OrderBook.hpp"
+
+int main() {
+    {
+        OrderBook b;
+        b.submit({1, Side::SELL, OrderType::LIMIT, 100, 10});
+        b.submit({2, Side::SELL, OrderType::LIMIT, 100, 20});
+        auto t = b.submit({3, Side::BUY, OrderType::LIMIT, 100, 15});
+        assert(t.size() == 2);
+        assert(t[0].sellOrderId == 1 && t[0].quantity == 10);
+        assert(t[1].sellOrderId == 2 && t[1].quantity == 5);
+        assert(b.activeOrders() == 1);
+    }
+    {
+        OrderBook b;
+        b.submit({10, Side::BUY, OrderType::LIMIT, 100, 5});
+        assert(b.cancel(10));
+        assert(!b.cancel(10));
+        assert(!b.bestBid());
+    }
+    {
+        OrderBook b;
+        b.submit({20, Side::SELL, OrderType::LIMIT, 100, 5});
+        auto t = b.submit({21, Side::BUY, OrderType::FOK, 100, 10});
+        assert(t.empty());
+        assert(b.activeOrders() == 1);
+    }
+    {
+        OrderBook b;
+        b.submit({30, Side::SELL, OrderType::LIMIT, 100, 5});
+        auto t = b.submit({31, Side::BUY, OrderType::IOC, 100, 10});
+        assert(t.size() == 1 && t[0].quantity == 5);
+        assert(b.activeOrders() == 0);
+    }
+    {
+        OrderBook b;
+        b.submit({40, Side::BUY, OrderType::LIMIT, 99, 10});
+        b.modify(40, 101, 7);
+        assert(b.bestBid() && *b.bestBid() == 101);
+    }
+    std::cout << "All tests passed.\n";
+}
