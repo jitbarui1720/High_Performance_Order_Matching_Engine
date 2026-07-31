@@ -74,8 +74,7 @@ cmake --build build --config Release
 ## Example
 Resting asks: 20 @ 501.00, 40 @ 502.00. An incoming BUY for 50 @ 502.00 generates two fills: 20 @ 501.00 and 30 @ 502.00. The second resting ask remains with quantity 10.
 
-## Benchmarking notes
-Run benchmarks on your own machine and report the actual hardware/compiler/build type. Do **not** put invented latency or throughput numbers on a resume. For serious latency measurements, add per-order timing, median/p95/p99 reporting, CPU pinning, warm-up runs, and allocation profiling.
+
 
 ## Concurrency / networking extension
 The matching core is intentionally single-threaded. This is a common and explainable design because a single writer gives deterministic ordering and avoids locks in the critical matching path. `ThreadSafeQueue.hpp` is provided as a primitive for a future architecture:
