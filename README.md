@@ -86,13 +86,7 @@ TCP clients -> gateway/parser threads -> queue -> single matching thread -> trad
 
 A production-style next step is to add an Asio TCP gateway and keep the book owned by exactly one matching thread.
 
-## Interview discussion points
-Be ready to explain: why integer ticks beat `double`; why bids and asks need opposite ordering; FIFO price-time priority; `map` vs `unordered_map`; why a list + iterator helps cancellation; cancel/replace semantics; single-writer architecture; cache locality limitations of node-based STL containers; and how you would benchmark tail latency.
 
-## Resume bullets (replace benchmark placeholders with real measurements)
-- Engineered a C++20 exchange-style limit order book supporting limit/market, IOC/FOK, partial fills, cancellation and price-time-priority matching.
-- Designed ordered price levels with FIFO queues and an order-ID index for efficient best-price access and average O(1) order lookup.
-- Benchmarked the engine on 1M synthetic orders, achieving **[YOUR RESULT] orders/sec** on **[YOUR CPU/compiler]**, and analyzed allocation/cache bottlenecks.
 
 ## Further improvements
 - Asio TCP order gateway and binary protocol
